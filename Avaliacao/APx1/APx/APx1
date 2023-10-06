@@ -1,0 +1,97 @@
+
+# isLeapYear(year) deve devolver True se year é um ano bissexto
+# e False se é um ano comum.  Corrija-a.
+# (See: https://en.wikipedia.org/wiki/Leap_year)
+def isLeapYear(year):
+    if year<0: return "A data é inválida para esta informação!"
+    return (year%4 == 0) and (year%400 == 0 or year%100 != 0)
+
+
+# monthDays deve devolver o número de dias de um dado mês num dado ano.
+# Por exemplo, monthDays(2004, 2) deve devolver 29.
+# Corrija-a.
+def monthDays(year, month):
+    if year<0 or 1>month or 12<month: return "A data é inválida para esta informação!"
+    monthday = (0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+    listmonth = list(monthday)
+    if isLeapYear(year) == True:
+        listmonth[2] = 29
+    monthday = tuple(listmonth)
+    days = monthday[month]
+    return days
+
+
+# nextDay deve devolver o dia a seguir a uma dada data.
+# Por exemplo, nextDay(2017, 1, 31) deve devolver (2017, 2, 1)
+def nextDay(year, month, day):
+    if dateIsValid(year,month,day) == False: return "A data é inválida para esta informação!"
+    if monthDays(year,month) == day:
+        if month == 12:
+            year += 1
+            month = 1
+            day = 1
+        else:
+            month += 1
+            day = 1
+    else:
+        day += 1
+    return year, month, day
+
+
+
+# Defina uma função dateIsValid que deve
+# devolver True se os seus argumentos formarem uma data válida
+# e devolver False no caso contrário.
+# Por exemplo, dateIsValid(1980, 2, 29) deve devolver True,
+# dateIsValid(1980, 2, 30) deve devolver False.
+def dateIsValid(year,month,day):
+   return ((year>=0) and (1<=month<=12) and (day>0) and (day<=monthDays(year,month)))
+
+
+# Defina uma função previousDay que devolva o dia anterior a uma dada data.
+# Por exemplo, previousDay(1980, 3, 1) deve devolver (1980, 2, 29)
+def previousDay(year,month,day):
+    if dateIsValid(year,month,day) == False: return "A data é inválida para esta informação!"
+    if day==1:
+        if month == 1:
+            year-=1
+            month = 12
+            day=monthDays(year,month)
+        else:
+            month-=1
+            day=monthDays(year,month)
+    else:
+        day-=1
+    return year, month, day
+# No Codecheck, não chame nenhuma função: o sistema trata disso.
+
+
+##################################################
+##################################################
+
+##################################################
+##################################################
+
+##################################################
+##################################################
+
+
+
+def main():
+    year = int(input("Year? "))
+    month = int(input("Month? "))
+    day = int(input("Day? "))
+
+    print("\nA data é válida? ",dateIsValid(year,month,day))
+
+    print("O ano é Bissexto? ",isLeapYear(year)) 
+
+    print("Quantos dias tem o mês? ",monthDays(year, month))
+
+    print(f"Qual é o dia seguinte a ({year}, {month}, {day})? ",nextDay(year, month, day))
+
+    print(f"Qual é o dia antes a ({year}, {month}, {day})? ",previousDay(year, month, day))
+
+
+
+main()
